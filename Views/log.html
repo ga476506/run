@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar sesión</title>
+  <link rel="stylesheet" href="/CSS/header.css">
+</head>
+
+<header>
+  <div>
+    <!-- Logo -->
+    <a href="/">
+      <img src="" alt="Logo">
+    </a>
+
+    <!-- Botón hamburguesa -->
+    <button onclick="toggleMenu()">☰</button>
+
+    <!-- Navegación -->
+    <nav id="nav-menu" style="display: none;">
+      <ul>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="#">Publicar</a></li>
+        <li><a href="login">Buscar</a></li>
+        <li><a href="log">Login</a></li>
+      </ul>
+    </nav>
+
+    <!-- Info de usuario -->
+    <div id="usuario-info" onclick="toggleUserMenu()" style="display: none; cursor: pointer;">
+      <img id="foto-usuario" src="" alt="Foto de perfil" width="40" height="40">
+      <span id="nombre-usuario"></span>
+    </div>
+
+    <!-- Menú desplegable -->
+    <div id="user-menu" style="display: none; border: 1px solid black; padding: 10px;">
+      <div>
+        <img id="foto-usuario-menu" src="" alt="Foto de perfil" width="60" height="60">
+        <span id="nombre-usuario-menu"></span>
+        <button onclick="redirigirPerfil()">Editar perfil</button>
+        <button onclick="cerrarSesion()">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById('nav-menu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function toggleUserMenu() {
+    const menu = document.getElementById('user-menu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function redirigirPerfil() {
+    const nombreUsuario = document.getElementById('nombre-usuario').textContent;
+    window.location.href = `/perfils?usuario=${nombreUsuario}`;
+  }
+
+  function cerrarSesion() {
+    localStorage.removeItem('usuario');
+    window.location.reload();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    if (usuario) {
+      document.getElementById('usuario-info').style.display = 'inline-block';
+      document.getElementById('foto-usuario').src = `/Images/avatares/${usuario.foto_perfil}`;
+      document.getElementById('foto-usuario-menu').src = `/Images/avatares/${usuario.foto_perfil}`;
+      document.getElementById('nombre-usuario').textContent = usuario.nombre;
+      document.getElementById('nombre-usuario-menu').textContent = usuario.nombre;
+    }
+  });
+</script>
+
+
+<body>
+  <h2>Login</h2>
+  <!-- Quitar action/method para que no recargue -->
+  <form id="login-form">
+    <label for="correo">Correo:</label>
+    <input type="email" name="correo" id="correo" required><br><br>
+
+    <label for="contrasena">Contraseña:</label>
+    <input type="password" name="contrasena" id="contrasena" required><br><br>
+
+    <button type="submit">Ingresar</button>
+  </form>
+
+  <script src="/JS/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+/* Estilo general del header */
+header {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Contenedor interno */
+header>div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Logo */
+header a img {
+    height: 40px;
+}
+
+/* Botón hamburguesa */
+header button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+    /* visible solo en mobile */
+}
+
+/* Navegación */
+#nav-menu ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+#nav-menu a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+#nav-menu a:hover {
+    color: #007bff;
+}
+
+/* Info del usuario */
+#usuario-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#usuario-info img {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Menú desplegable del usuario */
+#user-menu {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 200px;
+    z-index: 10;
+}
+
+#user-menu img {
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+#user-menu span {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#user-menu button {
+    width: 100%;
+    margin-top: 5px;
+    padding: 6px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#user-menu button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    header button {
+        display: block;
+    }
+
+    #nav-menu ul {
+        flex-direction: column;
+        background-color: #f8f9fa;
+        padding: 10px;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+    }
+}
