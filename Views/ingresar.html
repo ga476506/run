@@ -10,77 +10,34 @@
 </head>
 
 <header>
-  <div>
-    <!-- Logo -->
-    <a href="/">
-      <img src="" alt="Logo">
-    </a>
-
-    <!-- Botón hamburguesa -->
-    <button onclick="toggleMenu()">☰</button>
-
-    <!-- Navegación -->
-    <nav id="nav-menu" style="display: none;">
-      <ul>
-        <li><a href="/">Inicio</a></li>
-        <li><a href="#">Publicar</a></li>
-        <li><a href="login">Buscar</a></li>
-        <li><a href="log">Login</a></li>
-      </ul>
-    </nav>
-
-    <!-- Info de usuario -->
-    <div id="usuario-info" onclick="toggleUserMenu()" style="display: none; cursor: pointer;">
-      <img id="foto-usuario" src="" alt="Foto de perfil" width="40" height="40">
-      <span id="nombre-usuario"></span>
-    </div>
-
-    <!-- Menú desplegable -->
-    <div id="user-menu" style="display: none; border: 1px solid black; padding: 10px;">
-      <div>
-        <img id="foto-usuario-menu" src="" alt="Foto de perfil" width="60" height="60">
-        <span id="nombre-usuario-menu"></span>
-        <button onclick="redirigirPerfil()">Editar perfil</button>
-        <button onclick="cerrarSesion()">Cerrar sesión</button>
+  <div class="header-container">
+      <a href="/">
+          <img class="logo" src="/Images/pagina/play.png" alt="Logo">
+      </a>
+      <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
+      <nav>
+          <ul class="nav-list" id="nav-list">
+              <li><a href="/">Inicio</a></li>
+              <li><a href="#">Juegos</a></li>
+              <li><a href="login">Ingresar</a></li>
+              <li><a href="formulario">Formulario</a></li>
+          </ul>
+      </nav>
+      <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
+      <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
+          <img id="foto-usuario" src="" alt="Foto de perfil">
+          <span id="nombre-usuario"></span>
       </div>
-    </div>
+
+      <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
+      <div id="user-menu" style="display: none;">
+          <img id="foto-usuario-menu" src="" alt="Foto de perfil">
+          <span id="nombre-usuario-menu"></span>
+          <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
+          <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
+      </div>
   </div>
 </header>
-
-<script>
-  function toggleMenu() {
-    const menu = document.getElementById('nav-menu');
-    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-  }
-
-  function toggleUserMenu() {
-    const menu = document.getElementById('user-menu');
-    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-  }
-
-  function redirigirPerfil() {
-    const nombreUsuario = document.getElementById('nombre-usuario').textContent;
-    window.location.href = `/perfils?usuario=${nombreUsuario}`;
-  }
-
-  function cerrarSesion() {
-    localStorage.removeItem('usuario');
-    window.location.reload();
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const usuario = JSON.parse(localStorage.getItem('usuario'));
-    if (usuario) {
-      document.getElementById('usuario-info').style.display = 'inline-block';
-      document.getElementById('foto-usuario').src = `/Images/avatares/${usuario.foto_perfil}`;
-      document.getElementById('foto-usuario-menu').src = `/Images/avatares/${usuario.foto_perfil}`;
-      document.getElementById('nombre-usuario').textContent = usuario.nombre;
-      document.getElementById('nombre-usuario-menu').textContent = usuario.nombre;
-    }
-  });
-</script>
-
-
 
 <body>
   <h1>Registro de Usuario</h1>
@@ -128,4 +85,5 @@
 </body>
 
 <script src="/JS/login.js"></script>
+
 </html>

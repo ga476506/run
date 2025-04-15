@@ -1,116 +1,421 @@
-/* Estilo general del header */
-header {
+/* Estilos base */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Dosis", sans-serif;
+    margin: 0;
+    padding: 0;
     background-color: #f8f9fa;
-    padding: 10px 20px;
-    border-bottom: 1px solid #ccc;
 }
 
-/* Contenedor interno */
-header>div {
+header {
+    color: black;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
     flex-wrap: wrap;
-    gap: 10px;
 }
 
-/* Logo */
-header a img {
-    height: 40px;
+.logo {
+    width: 120px;
 }
 
-/* Botón hamburguesa */
-header button {
+.menu-toggle {
+    display: none;
     background: none;
     border: none;
-    font-size: 24px;
+    font-size: 28px;
+    color: black;
     cursor: pointer;
-    display: none;
-    /* visible solo en mobile */
 }
 
-/* Navegación */
-#nav-menu ul {
-    list-style: none;
+nav ul {
     display: flex;
+    gap: 16px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav a {
+    color: black;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #5e2129;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 20px auto;
     gap: 20px;
 }
 
-#nav-menu a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
+.main-content {
+    flex: 2;
+    background-color: black;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#nav-menu a:hover {
-    color: #007bff;
+.sidebar {
+    flex: 1;
+    background-color: black;
+    padding: 20px;
+    border-radius: 8px;
 }
 
-/* Info del usuario */
+img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.conImg {
+    margin: auto;
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    height: 430px;
+}
+
+.conImg img {
+    width: 0px;
+    flex-grow: 1;
+    object-fit: cover;
+    opacity: .8;
+    transition: .5s ease;
+}
+
+.conImg img:hover {
+    cursor: crosshair;
+    width: 300px;
+    opacity: 1;
+    filter: contrast(120%);
+}
+/* ========================= */
+/* Media Queries Mejoradas  */
+/* ========================= */
+
+/* Tablets y pantallas medianas */
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+        padding: 0 10px;
+    }
+
+    .main-content,
+    .sidebar {
+        width: 100%;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h1 {
+        font-size: 2rem;
+        padding: 15px;
+    }
+
+    .form-register {
+        width: 95%;
+        padding: 20px;
+    }
+}
+
+/* Móviles y pantallas pequeñas */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-list {
+        display: none;
+        /* Ocultar el menú por defecto */
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        background-color: #1E40AF;
+        padding: 10px;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+    }
+
+    .nav-list.show {
+        display: flex;
+        /* Mostrar el menú cuando se añada la clase 'show' */
+    }
+}
+
+/* Móviles y pantallas pequeñas */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        background-color: #1E40AF;
+        padding: 10px;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+    }
+
+    .nav-list.show {
+        display: flex;
+    }
+
+    .logo {
+        width: 80px;
+    }
+
+    #usuarios-lista {
+        width: 95%;
+    }
+
+    #usuarios-lista th,
+    #usuarios-lista td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    #usuarios-lista button {
+        width: 80px;
+        padding: 5px 8px;
+    }
+
+    .form-register {
+        padding: 15px;
+    }
+
+    form {
+        width: 95%;
+        padding: 10px;
+    }
+
+    form input,
+    form button {
+        font-size: 1rem;
+    }
+}
+
+/* Extra pequeño - Teléfonos muy pequeños */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.6rem;
+        padding: 10px;
+    }
+
+    .form-register h2 {
+        font-size: 1.2rem;
+    }
+
+    .controls,
+    select {
+        font-size: 1rem;
+    }
+
+    .form-register .botons {
+        font-size: 14px;
+    }
+}
+/* Estilos para la sección de usuario */
 #usuario-info {
     display: flex;
     align-items: center;
-    gap: 10px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    margin-left: auto;
 }
 
-#usuario-info img {
+#foto-usuario {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; 
+    margin-right: 10px; 
+}
+
+#nombre-usuario {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Estilos para el contenedor del usuario */
+.usuario-info-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    object-fit: cover;
+    margin-right: 10px;
 }
 
-/* Menú desplegable del usuario */
+/* Menú desplegable del usuario (invisible hasta hacer clic) */
 #user-menu {
     position: absolute;
-    top: 70px;
-    right: 20px;
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    top: 60px; 
+    right: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
     padding: 10px;
     width: 200px;
-    z-index: 10;
+    display: none; 
+    z-index: 1000; 
 }
 
-#user-menu img {
+/* Estilos para el avatar dentro del menú */
+#foto-usuario-menu {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    object-fit: cover;
-    display: block;
-    margin: 0 auto 10px auto;
+    margin-bottom: 10px;
+    
 }
 
-#user-menu span {
+/* Estilos para el nombre dentro del menú */
+#nombre-usuario-menu {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 10px;
     display: block;
+}
+
+/* Menú desplegable del usuario (invisible hasta hacer clic) */
+#user-menu {
+    position: absolute;
+    top: 60px; /* Ajusta según la altura del header */
+    right: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    width: 200px;
+    display: none; /* Inicialmente oculto */
+    z-index: 1000; /* Asegura que el menú se muestre encima de otros elementos */
+    text-align: center; /* Centra los elementos dentro del menú */
+}
+
+/* Estilos para el avatar dentro del menú */
+#foto-usuario-menu {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+/* Estilos para el nombre dentro del menú */
+#nombre-usuario-menu {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Estilo para el botón de cerrar sesión (rojo) */
+#user-menu button#cerrar-sesion {
+    width: 100%;
+    padding: 8px;
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    outline: none;
+}
+
+/* Efecto hover para el botón de cerrar sesión */
+#user-menu button#cerrar-sesion:hover {
+    background-color: #d32f2f; 
+    border: none; 
+}
+
+#user-menu button#cerrar-sesion:focus {
+    outline: none;
+}
+
+/* Estilo para el botón de cargar imagen (verde) */
+#cargar-avatar-btn {
+    width: 100%;
+    padding: 8px;
+    background-color: #4CAF50; /* Color verde */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
     text-align: center;
     margin-bottom: 10px;
 }
 
-#user-menu button {
-    width: 100%;
-    margin-top: 5px;
-    padding: 6px;
-    background-color: #007bff;
-    color: white;
+#cargar-avatar-btn:hover {
+    background-color: #45a049;
+}
+
+/* Estilo cuando se despliega el menú */
+#user-menu.show {
+    display: block;
+}
+
+/* Estilos para cuando el menú se activa */
+#usuario-info:hover {
+    color: red; /* Cambia el color al pasar el ratón */
+}
+
+#editarPerfilBtn {
+    background-color: #007bff; /* Color azul */
+    color: #fff;
     border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
     cursor: pointer;
+    text-align: center;
+    margin-bottom: 10px;
+    display: block;
+    width: 100%; 
 }
-
-#user-menu button:hover {
-    background-color: #0056b3;
-}
-
-/* Responsive para móviles */
-@media (max-width: 768px) {
-    header button {
-        display: block;
-    }
-
-    #nav-menu ul {
-        flex-direction: column;
-        background-color: #f8f9fa;
-        padding: 10px;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        width: 100%;
-    }
+#editarPerfilBtn:hover {
+    background-color: #0056b3; /* Color azul más oscuro al pasar el ratón */
 }
