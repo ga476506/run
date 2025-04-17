@@ -71,12 +71,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-fetch('/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ correo: 'tu_correo', contrasena: 'tu_contrasena' })
-})
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));

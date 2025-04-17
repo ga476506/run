@@ -12,15 +12,15 @@
 <header>
   <div class="header-container">
       <a href="/">
-          <img class="logo" src="/Images/pagina/play.png" alt="Logo">
+          <img class="logo" src="/Images/pagina/garza.png" alt="Logo">
       </a>
       <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
       <nav>
           <ul class="nav-list" id="nav-list">
-              <li><a href="/">Inicio</a></li>
-              <li><a href="#">Juegos</a></li>
-              <li><a href="login">Ingresar</a></li>
-              <li><a href="formulario">Formulario</a></li>
+              <li><a href="log">Login</a></li>
+              <li><a href="ingresar">Registrate</a></li>
+              <li><a href="publicarViaje" onclick="verificarConductor()">Publicar viaje</a></li>
+              <li><a href="buscarViaje">Buscar Viaje</a></li>
           </ul>
       </nav>
       <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
@@ -82,8 +82,7 @@
 
     <button type="submit">Registrarse</button>
   </form>
+  <script src="/JS/login.js"></script>
+  <script src="/JS/conductorVerificado.js"></script>
 </body>
-
-<script src="/JS/login.js"></script>
-
 </html>
