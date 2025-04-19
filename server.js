@@ -9,11 +9,17 @@ const db = require('./config/bd');
 
 const app = express();
 const port = 3000;
+const session = require('express-session');
 app.use(express.json()); // Para JSON
 app.use(express.urlencoded({ extended: true })); // Para formularios
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(session({
+  secret: '230904',
+  resave: false,
+  saveUninitialized: false
+}));
 
 // Configuración de almacenamiento de imágenes con Multer
 const storage = multer.diskStorage({
@@ -44,9 +50,9 @@ const storage = multer.diskStorage({
 // Configuración de multer para manejar múltiples archivos
 const upload = multer({ storage: storage });
 
-app.use(express.static(path.join(__dirname, 'Public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Ruta para servir la página de login
+// Ruta para servir la página
 app.get('/ingresar', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'ingresar.html'));
 });
@@ -58,6 +64,9 @@ app.get('/publicarViaje', (req, res) => {
 });
 app.get('/registro-conductor', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'registroConductor.html'));
+});
+app.get('/subelicencia', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'subirLicencia.html'));
 });
 
 // Ruta POST para registro de usuario
@@ -124,7 +133,6 @@ app.post('/login', (req, res) => {
   if (!correo || !contrasena) {
     return res.status(400).json({ success: false, message: 'Faltan datos' });
   }
-
   const sql = 'SELECT * FROM Usuario WHERE correo = ?';
   db.query(sql, [correo], async (err, results) => {
     if (err) {
@@ -140,7 +148,7 @@ app.post('/login', (req, res) => {
     if (!match) {
       return res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
     }
-
+    req.session.userId = usuario.id_usuario; // Guardar el ID del usuario en la sesión
     // Enviamos sólo lo necesario
     const datosUsuario = {
       id: usuario.id_usuario,
@@ -152,13 +160,17 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/verificar-conductor', async (req, res) => {
-  const { id_usuario } = req.query;
+  const id_usuario = req.session.userId;
+  console.log('ID de usuario recibido en el backend:', id_usuario); // Verifica el valor recibido
+
   try {
     const [result] = await db.promise().query(
       'SELECT * FROM Conductor_Info WHERE id_usuario = ?',
       [id_usuario]
     );
     const esConductor = result.length > 0;
+    console.log('Resultado de la consulta:', result);
+    console.log('Es conductor:', esConductor);
     res.json({ esConductor });
   } catch (error) {
     console.error('Error al verificar conductor:', error);
@@ -166,56 +178,83 @@ app.get('/verificar-conductor', async (req, res) => {
   }
 });
 
-app.post('/registrar-conductor', upload.single('foto_licencia'), (req, res) => {
-  const { placas, modelo, ano, color, numero_serie, id_usuario } = req.body;
-  const fotoLicencia = req.file ? req.file.filename : null;
+app.post('/registrar-automovil', (req, res) => {
+  const { placas, modelo, ano, color, numero_serie } = req.body;
+  const query = 'INSERT INTO Automovil (placas, modelo, ano, color, numeroz_serie) VALUES (?, ?, ?, ?, ?)';
 
-  if (!fotoLicencia) return res.json({ success: false, message: 'Falta la foto de la licencia' });
-
-  const insertarAuto = `
-    INSERT INTO Automovil (placas, modelo, ano, color, numeroz_serie)
-    VALUES (?, ?, ?, ?, ?)
-  `;
-
-  db.query(insertarAuto, [placas, modelo, ano, color, numero_serie], (err, result) => {
-    if (err) {
-      console.error('Error insertando auto:', err);
-      return res.json({ success: false, message: 'Error al insertar automóvil' });
-    }
-
-    const id_automovil = result.insertId;
-
-    const insertarConductor = `
-      INSERT INTO Conductor_Info (id_usuario, id_automovil, foto_licencia)
-      VALUES (?, ?, ?)
-    `;
-
-    db.query(insertarConductor, [id_usuario, id_automovil, fotoLicencia], (err2) => {
-      if (err2) {
-        console.error('Error insertando conductor:', err2);
-        return res.json({ success: false, message: 'Error al registrar al conductor' });
+  db.query(query, [placas, modelo, ano, color, numero_serie], (err, result) => {
+      if (err) {
+          console.error('Error al registrar automóvil:', err);
+          res.status(500).send('Error al registrar automóvil');
+          return;
       }
-
-      // También puedes asignar el rol de conductor si no lo tiene
-      const asignarRol = `
-        INSERT INTO Usuario_Rol (id_usuario, id_rol)
-        SELECT ?, 2 FROM DUAL
-        WHERE NOT EXISTS (
-          SELECT 1 FROM Usuario_Rol WHERE id_usuario = ? AND id_rol = 2
-        )
-      `;
-
-      db.query(asignarRol, [id_usuario, id_usuario], (err3) => {
-        if (err3) {
-          console.error('Error asignando rol de conductor:', err3);
-          return res.json({ success: false, message: 'Conductor registrado, pero no se asignó el rol' });
-        }
-
-        res.json({ success: true, message: 'Conductor registrado exitosamente' });
-      });
-    });
+      req.session.autoId = result.insertId; // Guardar el ID del automóvil en la sesión
+      res.redirect('/subelicencia');
   });
 });
+
+app.post('/subir-licencia', upload.single('foto_licencia'), (req, res) => {
+  const id_usuario = req.session.userId;
+  const id_automovil = req.session.autoId;
+  const foto_licencia = req.file.filename;
+
+  if (!id_usuario || !id_automovil || !foto_licencia) {
+    return res.status(400).send('Faltan datos para registrar al conductor.');
+  }
+
+  const query = 'INSERT INTO Conductor_Info (id_usuario, id_automovil, foto_licencia) VALUES (?, ?, ?)';
+  db.query(query, [id_usuario, id_automovil, foto_licencia], (err, result) => {
+    if (err) {
+      console.error('Error al guardar la información del conductor:', err);
+      return res.status(500).send('Error al registrar la información del conductor');
+    }
+
+    res.redirect('/publicarViaje');
+  });
+});
+
+app.post('/publicar-viaje', async (req, res) => {
+  const {
+    id_usuario,
+    origen,
+    destino,
+    hora,
+    fecha,
+    ruta,
+    numero_asientos,
+    costo_asiento
+  } = req.body;
+
+  try {
+    // 1. Obtener tanto id_conductor como id_automovil en una sola consulta
+    const [conductorAutoRows] = await db.promise().query(`
+      SELECT ci.id_conductor, a.id_automovil 
+      FROM Conductor_Info ci
+      JOIN Automovil a ON ci.id_automovil = a.id_automovil
+      WHERE ci.id_usuario = ?
+    `, [id_usuario]);
+
+    if (conductorAutoRows.length === 0) {
+      return res.status(400).json({ mensaje: 'El usuario no es conductor o no tiene automóvil registrado' });
+    }
+
+    const { id_conductor, id_automovil } = conductorAutoRows[0];
+
+    // 2. Insertar viaje
+    await db.promise().query(
+      `INSERT INTO Viaje_Publicado (
+        id_usuario, id_automovil, origen, destino, hora, fecha, ruta, numero_asientos, costo_asiento
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [id_usuario, id_automovil, origen, destino, hora, fecha, ruta, numero_asientos, costo_asiento]
+    );
+
+    res.status(200).json({ mensaje: 'Viaje publicado exitosamente' });
+  } catch (error) {
+    console.error('Error al publicar viaje:', error);
+    res.status(500).json({ mensaje: 'Error al publicar viaje' });
+  }
+});
+
 
 
 app.listen(port, () => {

@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/CSS/header.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/CSS/header.css">
+    <title>Document</title>
 </head>
 
 <body>
@@ -39,32 +39,12 @@
             </div>
         </div>
     </header>
-
-    <form id="form-publicar-viaje" method="POST" action="/publicar-viaje">
-        <label>Origen:</label>
-        <input type="text" name="origen" required>
-
-        <label>Destino:</label>
-        <input type="text" name="destino" required>
-
-        <label>Hora:</label>
-        <input type="time" name="hora" required>
-
-        <label>Fecha:</label>
-        <input type="date" name="fecha" required>
-
-        <label>Ruta (opcional):</label>
-        <textarea name="ruta"></textarea>
-
-        <label>Número de asientos:</label>
-        <input type="number" name="numero_asientos" min="1" required>
-
-        <label>Costo por asiento:</label>
-        <input type="number" name="costo_asiento" step="0.01" min="0" required>
-
-        <button type="submit">Publicar viaje</button>
+    
+    <form action="/subir-licencia" method="POST" enctype="multipart/form-data">
+        <label for="foto_licencia">Sube tu licencia de conducir:</label>
+        <input type="file" name="foto_licencia" id="foto_licencia" accept="image/*" required><br><br>
+        <button type="submit">Guardar Información</button>
     </form>
-
     <script src="/JS/login.js"></script>
     <script src="/JS/conductorVerificado.js"></script>
 </body>
