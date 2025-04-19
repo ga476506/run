@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar sesión</title>
+  <link rel="stylesheet" href="/CSS/style.css">
+  <!-- <link rel="stylesheet" href="/CSS/header.css"> -->
+  <link rel="stylesheet" href="/CSS/header.css">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+
+
+<body>
+  <header>
+    <div class="header-container">
+        <a href="/">
+            <img class="logo" src="/Images/pagina/logo-final.png" alt="Logo"> 
+        
+        <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
+        <nav>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="log">Login</a></li>
+                <li><a href="ingresar">Registrate</a></li>
+                <li><a href="publicarViaje" onclick="verificarConductor()">Publicar viaje</a></li>
+                <li><a href="buscarViaje">Buscar Viaje</a></li>
+            </ul>
+        </nav>
+        <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
+        <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
+            <img id="foto-usuario" src="" alt="Foto de perfil">
+            <span id="nombre-usuario"></span>
+        </div>
+  
+        <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
+        <div id="user-menu" style="display: none;">
+            <img id="foto-usuario-menu" src="" alt="Foto de perfil">
+            <span id="nombre-usuario-menu"></span>
+            <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
+            <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
+        </div>
+    </div>
+  </header>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="image-overlay-index">
+        <h1>¡Bienvenida a Bla Bla Garza!</h1>
+        <p>Conecta con otros estudiantes y viaja seguro, fácil y barato</p>
+        <a href="buscarViaje" class="boton">Buscar viaje</a>
+      </div>
+    </div>
+  </section>
+  <section class="beneficios">
+    <div class="beneficio">
+      <div class="iconos">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60%" height="60%" viewBox="0 0 24 24"><path fill="#4B4B4B" d="M10 12c2.21 0 4-1.79 4-4s-1.79-4-4-4s-4 1.79-4 4s1.79 4 4 4m0-6a2 2 0 1 1 0 4c-1.11 0-2-.89-2-2s.9-2 2-2m2 14H2v-3c0-2.67 5.33-4 8-4c1 0 2.38.19 3.71.56c-.3.56-.48 1.18-.5 1.83c-.98-.29-2.1-.49-3.21-.49c-2.97 0-6.1 1.46-6.1 2.1v1.1H12zm8.8-3v-1.5c0-1.4-1.4-2.5-2.8-2.5s-2.8 1.1-2.8 2.5V17c-.6 0-1.2.6-1.2 1.2v3.5c0 .7.6 1.3 1.2 1.3h5.5c.7 0 1.3-.6 1.3-1.2v-3.5c0-.7-.6-1.3-1.2-1.3m-1.3 0h-3v-1.5c0-.8.7-1.3 1.5-1.3s1.5.5 1.5 1.3z"/></svg>
+      </div>
+      <h3>Viajes Seguros</h3>
+      <p>Solo estudiantes de tu universidad.</p>
+    </div>
+    <div class="beneficio">
+      <div class="iconos">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60%" height="60%" viewBox="0 0 24 24"><path fill="#4B4B4B" d="M7 15h2c0 1.08 1.37 2 3 2s3-.92 3-2c0-1.1-1.04-1.5-3.24-2.03C9.64 12.44 7 11.78 7 9c0-1.79 1.47-3.31 3.5-3.82V3h3v2.18C15.53 5.69 17 7.21 17 9h-2c0-1.08-1.37-2-3-2s-3 .92-3 2c0 1.1 1.04 1.5 3.24 2.03C14.36 11.56 17 12.22 17 15c0 1.79-1.47 3.31-3.5 3.82V21h-3v-2.18C8.47 18.31 7 16.79 7 15"/></svg>
+      </div>
+      <h3>Ahorra Dinero</h3>
+      <p>Comparte el gasto con otros.</p>
+    </div>
+    <div class="beneficio">
+      <div class="iconos">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60%" height="60%" viewBox="0 0 24 24"><path fill="#4B4B4B" d="M20 14H4V8h3v2h2V8h6v2h2V8h3m0 11H4v-2h16M9 4h6v2H9m11 0h-3V4c0-1.11-.89-2-2-2H9c-1.11 0-2 .89-2 2v2H4c-1.11 0-2 .89-2 2v11c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2"/></svg>
+      </div>
+      <h3>Viaja Cuando Quieras</h3>
+      <p>Encuentra viajes fácilmente.</p>
+    </div>
+  </section>
+  
+
+  <script src="/JS/login.js"></script>
+  <script src="/JS/conductorVerificado.js"></script>
+</body>
+</html>

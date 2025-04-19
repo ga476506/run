@@ -47,6 +47,9 @@ const upload = multer({ storage: storage });
 app.use(express.static(path.join(__dirname, 'Public')));
 
 // Ruta para servir la página de login
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
 app.get('/ingresar', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'ingresar.html'));
 });

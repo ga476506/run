@@ -3,52 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <title>Iniciar sesión</title>
+  <link rel="stylesheet" href="/CSS/style.css">
+  <!-- <link rel="stylesheet" href="/CSS/header.css"> -->
   <link rel="stylesheet" href="/CSS/header.css">
+  
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<header>
-  <div class="header-container">
-      <a href="/">
-          <img class="logo" src="/Images/pagina/garza.png" alt="Logo">
-      </a>
-      <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
-      <nav>
-          <ul class="nav-list" id="nav-list">
-              <li><a href="log">Login</a></li>
-              <li><a href="ingresar">Registrate</a></li>
-              <li><a href="publicarViaje" onclick="verificarConductor()">Publicar viaje</a></li>
-              <li><a href="buscarViaje">Buscar Viaje</a></li>
-          </ul>
-      </nav>
-      <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
-      <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
-          <img id="foto-usuario" src="" alt="Foto de perfil">
-          <span id="nombre-usuario"></span>
-      </div>
 
-      <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
-      <div id="user-menu" style="display: none;">
-          <img id="foto-usuario-menu" src="" alt="Foto de perfil">
-          <span id="nombre-usuario-menu"></span>
-          <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
-          <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
-      </div>
-  </div>
-</header>
 
 <body>
-  <h2>Login</h2>
-  <!-- Quitar action/method para que no recargue -->
-  <form id="login-form">
-    <label for="correo">Correo:</label>
-    <input type="email" name="correo" id="correo" required><br><br>
+  <header>
+    <div class="header-container">
+        <a href="/">
+            <img class="logo" src="/Images/pagina/logo-final.png" alt="Logo"> 
+        </a>
+        <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
+        <nav>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="log">Login</a></li>
+                <li><a href="ingresar">Registrate</a></li>
+                <li><a href="publicarViaje" onclick="verificarConductor()">Publicar viaje</a></li>
+                <li><a href="buscarViaje">Buscar Viaje</a></li>
+            </ul>
+        </nav>
+        <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
+        <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
+            <img id="foto-usuario" src="" alt="Foto de perfil">
+            <span id="nombre-usuario"></span>
+        </div>
+  
+        <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
+        <div id="user-menu" style="display: none;">
+            <img id="foto-usuario-menu" src="" alt="Foto de perfil">
+            <span id="nombre-usuario-menu"></span>
+            <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
+            <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
+        </div>
+    </div>
+  </header>
+  <div class="login-container">
+    <!-- Lado izquierdo con imagen -->
+    <div class="login-image">
+      <div class="image-overlay">
+        <h1>BLA BLA GARZA</h1>
+        <p>Viaje al alcance de un clic</p>
+      </div>
+    </div>
 
-    <label for="contrasena">Contraseña:</label>
-    <input type="password" name="contrasena" id="contrasena" required><br><br>
+    <!-- Lado derecho con formulario -->
+    <div class="login-form">
+      <h2>Inicio de sesión</h2>
+      <p class="registro-texto">¿No tienes cuenta aún? <a href="ingresar">Regístrate</a></p>
 
-    <button type="submit">Ingresar</button>
-  </form>
+      <form id="login-form">
+        <label for="correo">Correo electrónico</label>
+        <input type="email" id="correo" name="correo" required>
+
+        <label for="contrasena">Contraseña</label>
+        <input type="password" id="contrasena" name="contrasena" required>
+
+        <button type="submit">Iniciar sesión</button>
+      </form>
+    </div>
+  </div>
 
   <script src="/JS/login.js"></script>
   <script src="/JS/conductorVerificado.js"></script>

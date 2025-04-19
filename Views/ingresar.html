@@ -6,82 +6,123 @@
   <title>Registro de Usuario</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/CSS/style.css">
   <link rel="stylesheet" href="/CSS/header.css">
+  <!-- Flatpickr CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
+
 </head>
 
-<header>
-  <div class="header-container">
-      <a href="/">
-          <img class="logo" src="/Images/pagina/garza.png" alt="Logo">
-      </a>
-      <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
-      <nav>
-          <ul class="nav-list" id="nav-list">
-              <li><a href="log">Login</a></li>
-              <li><a href="ingresar">Registrate</a></li>
-              <li><a href="publicarViaje" onclick="verificarConductor()">Publicar viaje</a></li>
-              <li><a href="buscarViaje">Buscar Viaje</a></li>
-          </ul>
-      </nav>
-      <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
-      <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
-          <img id="foto-usuario" src="" alt="Foto de perfil">
-          <span id="nombre-usuario"></span>
-      </div>
-
-      <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
-      <div id="user-menu" style="display: none;">
-          <img id="foto-usuario-menu" src="" alt="Foto de perfil">
-          <span id="nombre-usuario-menu"></span>
-          <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
-          <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
-      </div>
-  </div>
-</header>
-
 <body>
-  <h1>Registro de Usuario</h1>
-  <form action="/registro" method="POST" enctype="multipart/form-data">
-    <label>Nombre:</label><br>
-    <input type="text" name="nombre" required><br>
+  <header>
+    <div class="header-container">
+        <a href="/">
+            <img class="logo" src="/Images/pagina/logo-final.png" alt="Logo">
+        </a>
+        <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
+        <nav>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="log">Login</a></li>
+                <li><a href="ingresar">Registrate</a></li>
+                <li><a href="publicarViaje" onclick="verificarConductor()">Publicar viaje</a></li>
+                <li><a href="buscarViaje">Buscar Viaje</a></li>
+            </ul>
+        </nav>
+        <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
+        <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
+            <img id="foto-usuario" src="" alt="Foto de perfil">
+            <span id="nombre-usuario"></span>
+        </div>
+  
+        <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
+        <div id="user-menu" style="display: none;">
+            <img id="foto-usuario-menu" src="" alt="Foto de perfil">
+            <span id="nombre-usuario-menu"></span>
+            <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
+            <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
+        </div>
+    </div>
+  </header>
+  <div class="register-container">
+    <div class="register-image">
+      <div class="image-overlay">
+        <h1>BLA BLA GARZA</h1>
+        <p>Viaje al alcance de un clic</p>
+      </div>
+    </div>
 
-    <label>Apellido Paterno:</label><br>
-    <input type="text" name="apellido_paterno" required><br>
+    <div class="register-form">
+      <h2>Registro de usuario</h2>
+      <form action="/registro" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Nombre:</label>
+          <input type="text" name="nombre" required>
+        </div>
+        <div class="form-group">
+          <label>Apellido Paterno:</label>
+          <input type="text" name="apellido_paterno" required>
+        </div>
+        <div class="form-group">
+          <label>Apellido Materno:</label>
+          <input type="text" name="apellido_materno">
+        </div>
+        <div class="form-group">
+          <label>Fecha de Nacimiento:</label>
+          <input type="date" name="fecha_nacimiento" required>
+        </div>
+        <div class="form-group">
+          <label>Programa Educativo:</label>
+          <input type="text" name="programa_educativo">
+        </div>
+        <div class="form-group">
+          <label>Teléfono:</label>
+          <input type="tel" name="telefono">
+        </div>
+        <div class="form-group">
+          <label>Correo:</label>
+          <input type="email" name="correo" required>
+        </div>
+        <div class="form-group">
+          <label>Género:</label>
+          <select name="genero">
+            <option value="">Selecciona...</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Foto INE:</label>
+          <input type="file" name="foto_ine" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label>Foto de Perfil:</label>
+          <input type="file" name="foto_perfil" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label>Contraseña:</label>
+          <input type="password" name="contrasena" required>
+        </div>
+        <button type="submit">Registrarse</button>
+      </form>
+    </div>  
 
-    <label>Apellido Materno:</label><br>
-    <input type="text" name="apellido_materno"><br>
+  </div>
+  
+  <!-- Flatpickr JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-    <label>Fecha de Nacimiento:</label><br>
-    <input type="date" name="fecha_nacimiento" required><br>
+  <script>
+    flatpickr("input[name='fecha_nacimiento']", {
+      dateFormat: "Y-m-d",
+      maxDate: "today",
+      altInput: true,
+      altFormat: "F j, Y",
+    });
+  </script>
 
-    <label>Programa Educativo:</label><br>
-    <input type="text" name="programa_educativo"><br>
-
-    <label>Teléfono:</label><br>
-    <input type="tel" name="telefono"><br>
-
-    <label>Correo:</label><br>
-    <input type="email" name="correo" required><br>
-
-    <label>Género:</label><br>
-    <select name="genero">
-      <option value="">Selecciona...</option>
-      <option value="Masculino">Masculino</option>
-      <option value="Femenino">Femenino</option>
-      <option value="Otro">Otro</option>
-    </select><br>
-
-    <label>Foto INE:</label><br>
-    <input type="file" name="foto_ine" accept="image/*"><br>
-
-    <label>Foto de Perfil:</label><br>
-    <input type="file" name="foto_perfil" accept="image/*"><br>
-
-    <label>Contraseña:</label><br>
-    <input type="password" name="contrasena" required><br><br>
-
-    <button type="submit">Registrarse</button>
-  </form>
   <script src="/JS/login.js"></script>
   <script src="/JS/conductorVerificado.js"></script>
 </body>
