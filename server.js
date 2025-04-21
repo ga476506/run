@@ -214,8 +214,9 @@ app.post('/subir-licencia', upload.single('foto_licencia'), (req, res) => {
 });
 
 app.post('/publicar-viaje', async (req, res) => {
+  const id_usuario = req.session.userId; // 🔥 CAMBIA AQUÍ: usa sesión, no body
+
   const {
-    id_usuario,
     origen,
     destino,
     hora,
@@ -225,27 +226,28 @@ app.post('/publicar-viaje', async (req, res) => {
     costo_asiento
   } = req.body;
 
+  if (!id_usuario) {
+    return res.status(401).json({ mensaje: 'Usuario no autenticado' });
+  }
+
   try {
-    // 1. Obtener tanto id_conductor como id_automovil en una sola consulta
     const [conductorAutoRows] = await db.promise().query(`
-      SELECT ci.id_conductor, a.id_automovil 
-      FROM Conductor_Info ci
-      JOIN Automovil a ON ci.id_automovil = a.id_automovil
-      WHERE ci.id_usuario = ?
+      SELECT id_usuario, id_automovil
+      FROM Conductor_Info
+      WHERE id_usuario = ?
     `, [id_usuario]);
 
     if (conductorAutoRows.length === 0) {
       return res.status(400).json({ mensaje: 'El usuario no es conductor o no tiene automóvil registrado' });
     }
 
-    const { id_conductor, id_automovil } = conductorAutoRows[0];
+    const { id_usuario: id_usuario_conductor, id_automovil } = conductorAutoRows[0];
 
-    // 2. Insertar viaje
     await db.promise().query(
       `INSERT INTO Viaje_Publicado (
         id_usuario, id_automovil, origen, destino, hora, fecha, ruta, numero_asientos, costo_asiento
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [id_usuario, id_automovil, origen, destino, hora, fecha, ruta, numero_asientos, costo_asiento]
+      [id_usuario_conductor, id_automovil, origen, destino, hora, fecha, ruta, numero_asientos, costo_asiento]
     );
 
     res.status(200).json({ mensaje: 'Viaje publicado exitosamente' });
@@ -254,8 +256,6 @@ app.post('/publicar-viaje', async (req, res) => {
     res.status(500).json({ mensaje: 'Error al publicar viaje' });
   }
 });
-
-
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
