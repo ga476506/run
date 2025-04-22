@@ -68,6 +68,9 @@ app.get('/registro-conductor', (req, res) => {
 app.get('/subelicencia', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'subirLicencia.html'));
 });
+app.get('/buscarViaje', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'viajePublicado.html'));
+});
 
 // Ruta POST para registro de usuario
 app.post('/registro', upload.fields([
@@ -183,13 +186,13 @@ app.post('/registrar-automovil', (req, res) => {
   const query = 'INSERT INTO Automovil (placas, modelo, ano, color, numeroz_serie) VALUES (?, ?, ?, ?, ?)';
 
   db.query(query, [placas, modelo, ano, color, numero_serie], (err, result) => {
-      if (err) {
-          console.error('Error al registrar automóvil:', err);
-          res.status(500).send('Error al registrar automóvil');
-          return;
-      }
-      req.session.autoId = result.insertId; // Guardar el ID del automóvil en la sesión
-      res.redirect('/subelicencia');
+    if (err) {
+      console.error('Error al registrar automóvil:', err);
+      res.status(500).send('Error al registrar automóvil');
+      return;
+    }
+    req.session.autoId = result.insertId; // Guardar el ID del automóvil en la sesión
+    res.redirect('/subelicencia');
   });
 });
 
@@ -254,6 +257,35 @@ app.post('/publicar-viaje', async (req, res) => {
   } catch (error) {
     console.error('Error al publicar viaje:', error);
     res.status(500).json({ mensaje: 'Error al publicar viaje' });
+  }
+});
+
+app.get('/viajes', async (req, res) => {
+  try {
+    const [rows] = await db.promise().query(`
+    SELECT 
+    u.nombre AS nombre_usuario,
+    a.modelo AS modelo_auto,
+    a.color AS color_auto,
+    vp.origen,
+    vp.destino,
+    vp.hora,
+    vp.fecha,
+    vp.ruta,
+    vp.numero_asientos,
+    vp.costo_asiento
+    FROM 
+    Viaje_Publicado vp
+    JOIN 
+    Usuario u ON vp.id_usuario = u.id_usuario
+    JOIN 
+    Automovil a ON vp.id_automovil = a.id_automovil;
+    `);
+
+    res.json(rows);
+  } catch (error) {
+    console.error('Error al obtener los viajes:', error);
+    res.status(500).send('Error al obtener los viajes');
   }
 });
 
