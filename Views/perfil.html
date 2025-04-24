@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/CSS/header.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <a href="/">
+                <img class="logo" src="/Images/pagina/garza.png" alt="Logo">
+            </a>
+            <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
+            <nav>
+                <ul class="nav-list" id="nav-list">
+                    <li><a href="log">Login</a></li>
+                    <li><a href="ingresar">Registrate</a></li>
+                    <li><a href="#" id="btnPublicarViaje">Publicar viaje</a></li>
+                    <li><a href="buscarViaje">Buscar Viaje</a></li>
+                </ul>
+            </nav>
+            <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
+            <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
+                <img id="foto-usuario" src="" alt="Foto de perfil">
+                <span id="nombre-usuario"></span>
+            </div>
+
+            <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
+            <div id="user-menu" style="display: none;">
+                <img id="foto-usuario-menu" src="" alt="Foto de perfil">
+                <span id="nombre-usuario-menu"></span>
+                <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
+                <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <h1>Perfil de Usuario</h1>
+    <form id="formPerfil" enctype="multipart/form-data" method="POST">
+        <div class="flex flex-col items-center gap-2 mb-4">
+            <img id="previewPerfil" src="/Images/avatares/default.webp" alt="Foto de perfil"
+                class="rounded-full w-36 h-36 object-cover border border-gray-300" />
+            <input type="file" id="foto_perfil" name="foto_perfil" accept="image/*" class="hidden">
+            <button type="button" onclick="document.getElementById('foto_perfil').click()"
+                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                Cambiar foto
+            </button>
+        </div>
+
+        <label>Nombre: <input type="text" name="nombre" id="nombre"></label><br>
+        <label>Apellido Paterno: <input type="text" name="apellido_paterno" id="apellido_paterno"></label><br>
+        <label>Apellido Materno: <input type="text" name="apellido_materno" id="apellido_materno"></label><br>
+        <label>Fecha de nacimiento: <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"></label><br>
+        <label>Programa educativo: <input type="text" name="programa_educativo" id="programa_educativo"></label><br>
+        <label>Teléfono: <input type="text" name="telefono" id="telefono"></label><br>
+        <label>Correo: <input type="email" name="correo" id="correo" readonly></label><br>
+        <label>Género:
+            <select id="genero" name="genero">
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Otro">Otro</option>
+            </select>
+        </label><br>
+        <div id="infoConductor" style="display: none;">
+            <h3>Información del conductor</h3>
+            <label>Modelo del automóvil: <input type="text" id="modelo"></label><br>
+            <label>Año: <input type="number" id="ano"></label><br>
+            <label>Color: <input type="text" id="color"></label><br>
+            <label>Número de serie: <input type="text" id="numeroz_serie"></label><br>
+            <label>Placas: <input type="text" id="placas"></label><br>
+        </div>
+        
+        <button type="submit">Guardar Cambios</button>
+    </form>
+
+
+    <script src="/JS/login.js"></script>
+    <script src="/JS/conductorVerificado.js"></script>
+    <script src="/JS/perfil.js"></script>
+</body>
+
+</html>
