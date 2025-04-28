@@ -1,66 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <title>Registro de Usuario</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Registro de Conductor</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/CSS/header.css">
+    <link rel="stylesheet" href="/CSS/registerDriver.css"> <!-- reutilizamos el mismo login.css -->
 </head>
 
-<header>
-    <div class="header-container">
-        <a href="/">
-            <img class="logo" src="/Images/pagina/garza.png" alt="Logo">
+<body>
+    <header class="custom-header">
+        <a href="/" class="custom-logo">
+            <img src="/Images/pagina/logo-final.png" alt="Logo">
         </a>
-        <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
-        <nav>
-            <ul class="nav-list" id="nav-list">
-                <li><a href="log">Login</a></li>
-                <li><a href="ingresar">Registrate</a></li>
-                <li><a href="#" id="btnPublicarViaje">Publicar viaje</a></li>
-                <li><a href="buscarViaje">Buscar Viaje</a></li>
-            </ul>
-        </nav>
-        <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
+
+        <i class='bx bx-menu' id="menu-icon" onclick="toggleMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/>
+            </svg>
+        </i>
+
+        <ul class="navbar" id="nav-list">
+            <li><a href="log">Iniciar sesión</a></li>
+            <li><a href="ingresar">Regístrate</a></li>
+            <li><a href="#" id="btnPublicarViaje">Publicar viaje</a></li>
+            <li><a href="buscarViaje">Buscar viaje</a></li>
+        </ul>
+
         <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
             <img id="foto-usuario" src="" alt="Foto de perfil">
             <span id="nombre-usuario"></span>
         </div>
 
-        <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
         <div id="user-menu" style="display: none;">
             <img id="foto-usuario-menu" src="" alt="Foto de perfil">
             <span id="nombre-usuario-menu"></span>
             <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
             <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
         </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="title">Registro de Conductor</div>
+        <form action="/registrar-automovil" method="POST">
+            <div class="field">
+                <input type="text" id="placas" name="placas" required maxlength="20">
+                <label for="placas">Placas del automóvil</label>
+            </div>
+
+            <div class="field">
+                <input type="text" id="modelo" name="modelo" required maxlength="100">
+                <label for="modelo">Modelo</label>
+            </div>
+
+            <div class="field">
+                <input type="number" id="ano" name="ano" required min="1900" max="2100">
+                <label for="ano">Año</label>
+            </div>
+
+            <div class="field">
+                <input type="text" id="color" name="color" maxlength="50" required>
+                <label for="color">Color</label>
+            </div>
+
+            <div class="field">
+                <input type="text" id="numero_serie" name="numero_serie" required maxlength="100">
+                <label for="numero_serie">Número de serie</label>
+            </div>
+
+            <div class="field">
+                <button type="submit" class="boton-degradado">Registrar Automóvil</button>
+            </div>
+        </form>
     </div>
-</header>
 
-<body>
-    <h2>Registro de Conductor</h2>
-    <form action="/registrar-automovil" method="POST">
-        <label for="placas">Placas del automóvil:</label>
-        <input type="text" id="placas" name="placas" required maxlength="20"><br><br>
-
-        <label for="modelo">Modelo:</label>
-        <input type="text" id="modelo" name="modelo" required maxlength="100"><br><br>
-
-        <label for="ano">Año:</label>
-        <input type="number" id="ano" name="ano" required min="1900" max="2100"><br><br>
-
-        <label for="color">Color:</label>
-        <input type="text" id="color" name="color" maxlength="50"><br><br>
-
-        <label for="numero_serie">Número de serie:</label>
-        <input type="text" id="numero_serie" name="numero_serie" required maxlength="100"><br><br>
-
-        <button type="submit">Registrar Automóvil</button>
-    </form>
     <script src="/JS/login.js"></script>
     <script src="/JS/conductorVerificado.js"></script>
+    <script src="/JS/header.js"></script>
 </body>
-
 </html>

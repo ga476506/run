@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+:root {
+  --main-color: #800101;
+  --second-color: #FFAC38;
+  --text-color: #444;
+  --bg-color: #EEEFF1;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-color);
+  font-family: 'Poppins', sans-serif;
+}
+
+.wrapper {
+  width: 450px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+  display: grid;
+  margin-top: 60px;
+}
+
+.wrapper .title {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 10px 10px 0px 0px;
+  line-height: 80px;
+  background: linear-gradient(135deg, #a80000, #800101, #4d0000);
+}
+
+.wrapper form {
+  padding: 20px 30px 40px 30px;
+}
+
+.wrapper form .field {
+  position: relative;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+.wrapper form .field input,
+.wrapper form .field select {
+  width: 100%;
+  height: 45px;
+  border-radius: 25px;
+  padding-left: 20px;
+  border: 1px solid lightgrey;
+  outline: none;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.wrapper form .field input:focus,
+.wrapper form .field select:focus {
+  border-color: var(--main-color);
+}
+
+.wrapper form .field label {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #999;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  background: #fff;
+  padding: 0 5px;
+}
+
+.wrapper form .field input:focus ~ label,
+.wrapper form .field input:valid ~ label,
+.wrapper form .field select:focus ~ label,
+.wrapper form .field select:valid ~ label {
+  top: 0;
+  font-size: 13px;
+  color: var(--main-color);
+}
+
+.label-fixed {
+  top: -10px;
+  font-size: 13px;
+  color: var(--main-color);
+  background: #fff;
+  padding: 0 5px;
+  transform: translateY(0);
+}
+
+.boton-degradado {
+  color: #fff;
+  background: linear-gradient(135deg, #a80000, #800101, #4d0000);
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 30px auto 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.boton-degradado:hover {
+  filter: brightness(1.1);
+}
+
+.boton-degradado:active {
+  transform: scale(0.95);
+}
+
+.signup-link {
+  text-align: center;
+  margin-top: 15px;
+  color: #262626;
+}
+
+.signup-link a {
+  color: var(--main-color);
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* SELECTOR DE FECHA */
+  /* Letras del mes y año en blanco */
+  .flatpickr-current-month,
+  .flatpickr-months .flatpickr-month {
+    color: rgb(248, 243, 243) !important;
+  }
+
+  .flatpickr-calendar {
+    font-family: Arial, sans-serif;
+    border: 1px solid #7a0000;
+  }
+
+  .flatpickr-months {
+    background-color: #7a0000;
+    color: white;
+  }
+
+  .flatpickr-weekday {
+    background-color: #b30000;
+    color: white;
+  }
+
+  .flatpickr-day.today {
+    background-color: #7a0000;
+    color: white;
+    border-radius: 50%;
+  }
+
+  .flatpickr-day.selected,
+  .flatpickr-day.startRange,
+  .flatpickr-day.endRange,
+  .flatpickr-day:hover {
+    background-color: #a30000;
+    color: white;
+    border-radius: 50%;
+  }
+
+  .flatpickr-input.active {
+    border-color: #7a0000;
+  }
+  .flatpickr-monthDropdown-months {
+    background-color: #333333; /* gris oscuro */
+    color: white;
+  }
+  .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+    background-color: #333333;
+    color: white;
+  }
+
+
+  /* Botones de fotos */
+  .file-photo{
+    width: 100%;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    
+  }
+  .label-photo{
+    font-size: 18px;
+  }
+  .subir-foto {
+    /* Ocultar el input real */
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  /* Estilizar el label como botón */
+  .label-photo {
+    /* display: inline-block; */
+    background: linear-gradient(135deg, #a80000, #800101, #4d0000);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  
+  /* Cambiar color al pasar el mouse */
+  .label-photo:hover {
+    background: linear-gradient(135deg, #4d0000, #800101, #a80000);
+  }
+  
+ 
+  
+
+@media (max-width: 568px) {
+  .wrapper {
+    width: 90%;
+  }
+}
+
+@media (max-width: 378px) {
+  .wrapper form {
+    padding: 10px 20px 30px 20px;
+  }
+}

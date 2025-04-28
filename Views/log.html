@@ -4,53 +4,64 @@
   <meta charset="UTF-8">
   <title>Iniciar sesión</title>
   <link rel="stylesheet" href="/CSS/header.css">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/CSS/login.css">
 </head>
 
-<header>
-  <div class="header-container">
-      <a href="/">
-          <img class="logo" src="/Images/pagina/garza.png" alt="Logo">
-      </a>
-      <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
-      <nav>
-          <ul class="nav-list" id="nav-list">
-              <li><a href="log">Login</a></li>
-              <li><a href="ingresar">Registrate</a></li>
-              <li><a href="#" id="btnPublicarViaje">Publicar viaje</a></li>
-              <li><a href="buscarViaje">Buscar Viaje</a></li>
-          </ul>
-      </nav>
-      <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
-      <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
-          <img id="foto-usuario" src="" alt="Foto de perfil">
-          <span id="nombre-usuario"></span>
-      </div>
-
-      <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
-      <div id="user-menu" style="display: none;">
-          <img id="foto-usuario-menu" src="" alt="Foto de perfil">
-          <span id="nombre-usuario-menu"></span>
-          <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
-          <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
-      </div>
-  </div>
-</header>
-
 <body>
-  <h2>Login</h2>
-  <!-- Quitar action/method para que no recargue -->
-  <form id="login-form">
-    <label for="correo">Correo:</label>
-    <input type="email" name="correo" id="correo" required><br><br>
 
-    <label for="contrasena">Contraseña:</label>
-    <input type="password" name="contrasena" id="contrasena" required><br><br>
+  <header class="custom-header">
+    <a href="/" class="custom-logo">
+      <img src="/Images/pagina/logo-final.png" alt="Logo">
+    </a>
+  
+    <i class='bx bx-menu' id="menu-icon" onclick="toggleMenu()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </i>
+  
+    <ul class="navbar" id="nav-list">
+      <li><a href="log">Iniciar sesión</a></li>
+      <li><a href="ingresar">Regístrate</a></li>
+      <li><a href="#" id="btnPublicarViaje">Publicar viaje</a></li>
+      <li><a href="buscarViaje">Buscar viaje</a></li>
+    </ul>
+  
+    <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
+    <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
+      <img id="foto-usuario" src="" alt="Foto de perfil">
+      <span id="nombre-usuario"></span>
+  </div>
+  
+  <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
+  <div id="user-menu" style="display: none;">
+      <img id="foto-usuario-menu" src="" alt="Foto de perfil">
+      <span id="nombre-usuario-menu"></span>
+      <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
+      <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
+  </div>
+  </header>
 
-    <button type="submit">Ingresar</button>
-  </form>
+  <div class="wrapper">
+    <div class="title">Iniciar sesión</div>
+    <!-- Quitar action/method para que no recargue -->
+    <form id="login-form">
+      <div class="field">
+        <input type="email" name="correo" id="correo" required>
+        <label for="correo">Correo electronico</label>
+      </div>
+
+      <div class="field">
+        <input type="password" name="contrasena" id="contrasena" required>
+        <label for="contrasena">Contraseña</label>
+      </div>
+      <div class="field">
+        <button type="submit" class="boton-degradado" value="Login">Ingresar</button>
+      </div>
+      <div class="signup-link">¿Aún no te registras? <a href="ingresar">Registrate aquí</a></div>
+    </form>
+  </div>
 
   <script src="/JS/login.js"></script>
   <script src="/JS/conductorVerificado.js"></script>
+  <script src="/JS/header.js"></script>
 </body>
 </html>

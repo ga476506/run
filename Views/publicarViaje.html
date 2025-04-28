@@ -4,69 +4,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Publicar Viaje</title>
     <link rel="stylesheet" href="/CSS/header.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/CSS/publicar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
+
 </head>
 
 <body>
-    <header>
-        <div class="header-container">
-            <a href="/">
-                <img class="logo" src="/Images/pagina/garza.png" alt="Logo">
-            </a>
-            <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
-            <nav>
-                <ul class="nav-list" id="nav-list">
-                    <li><a href="log">Login</a></li>
-                    <li><a href="ingresar">Registrate</a></li>
-                    <li><a href="#" id="btnPublicarViaje">Publicar viaje</a></li>
-                    <li><a href="buscarViaje">Buscar Viaje</a></li>
-                </ul>
-            </nav>
-            <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
-            <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
-                <img id="foto-usuario" src="" alt="Foto de perfil">
-                <span id="nombre-usuario"></span>
-            </div>
+    <header class="custom-header">
+        <a href="/" class="custom-logo">
+            <img src="/Images/pagina/logo-final.png" alt="Logo">
+        </a>
 
-            <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
-            <div id="user-menu" style="display: none;">
-                <img id="foto-usuario-menu" src="" alt="Foto de perfil">
-                <span id="nombre-usuario-menu"></span>
-                <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
-                <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
-            </div>
+        <i class='bx bx-menu' id="menu-icon" onclick="toggleMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/>
+            </svg>
+        </i>
+
+        <ul class="navbar" id="nav-list">
+            <li><a href="log">Iniciar sesión</a></li>
+            <li><a href="ingresar">Regístrate</a></li>
+            <li><a href="#" id="btnPublicarViaje">Publicar viaje</a></li>
+            <li><a href="buscarViaje">Buscar viaje</a></li>
+        </ul>
+
+        <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
+            <img id="foto-usuario" src="" alt="Foto de perfil">
+            <span id="nombre-usuario"></span>
+        </div>
+
+        <div id="user-menu" style="display: none;">
+            <img id="foto-usuario-menu" src="" alt="Foto de perfil">
+            <span id="nombre-usuario-menu"></span>
+            <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
+            <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
         </div>
     </header>
 
-    <form id="form-publicar-viaje" method="POST" action="/publicar-viaje">
-        <label>Origen:</label>
-        <input type="text" name="origen" required>
+    <div class="wrapper">
+        <div class="title">Publicar Viaje</div>
+        <form id="form-publicar-viaje" method="POST" action="/publicar-viaje">
+            <div class="field">
+                <input type="text" name="origen" id="origen" required>
+                <label for="origen">Origen</label>
+            </div>
 
-        <label>Destino:</label>
-        <input type="text" name="destino" required>
+            <div class="field">
+                <input type="text" name="destino" id="destino" required>
+                <label for="destino">Destino</label>
+            </div>
 
-        <label>Hora:</label>
-        <input type="time" name="hora" required>
+            <div class="field">
+                <input type="time" name="hora" id="hora" required>
+                <label for="hora">Hora</label>
+            </div>
 
-        <label>Fecha:</label>
-        <input type="date" name="fecha" required>
+            <div class="field">
+                <input type="date" name="fecha" id="fecha" required>
+                <label for="fecha">Fecha</label>
+            </div>
 
-        <label>Ruta (opcional):</label>
-        <textarea name="ruta"></textarea>
+            <div class="field">
+                <textarea name="ruta" id="ruta" placeholder="Ruta (opcional)"></textarea>
+                <label for="ruta">Ruta</label>
+            </div>
 
-        <label>Número de asientos:</label>
-        <input type="number" name="numero_asientos" min="1" required>
+            <div class="field">
+                <input type="number" name="numero_asientos" id="numero_asientos" min="1" required>
+                <label for="numero_asientos">Número de asientos</label>
+            </div>
 
-        <label>Costo por asiento:</label>
-        <input type="number" name="costo_asiento" step="0.01" min="0" required>
+            <div class="field">
+                <input type="number" name="costo_asiento" id="costo_asiento" step="0.01" min="0" required>
+                <label for="costo_asiento">Costo por asiento</label>
+            </div>
 
-        <button type="submit">Publicar viaje</button>
-    </form>
+            <button type="submit" class="boton-degradado">Publicar viaje</button>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+    <script>
+        flatpickr("input[name='fecha']", {
+            dateFormat: "Y-m-d",
+            altInput: true,
+            altFormat: "F j, Y",
+        });
+    </script>
+
+    
     <script src="/JS/login.js"></script>
     <script src="/JS/conductorVerificado.js"></script>
+    <script src="/JS/header.js"></script>
 </body>
 
 </html>
