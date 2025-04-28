@@ -48,15 +48,18 @@ function mostrarViajes(viajes) {
     });
 }
 
-document.getElementById('busqueda').addEventListener('input', e => {
-    const texto = e.target.value.toLowerCase();
-    const filtrados = todosLosViajes.filter(v =>
-        v.origen.toLowerCase().includes(texto) ||
-        v.destino.toLowerCase().includes(texto) ||
-        v.nombre_usuario.toLowerCase().includes(texto) ||
-        v.modelo_auto.toLowerCase().includes(texto)
-    );    
-    mostrarViajes(filtrados);
-});
+document.getElementById('busquedaOrigen').addEventListener('input', filtrarViajes);
+document.getElementById('busquedaDestino').addEventListener('input', filtrarViajes);
 
+function filtrarViajes() {
+    const origen = document.getElementById('busquedaOrigen').value.toLowerCase();
+    const destino = document.getElementById('busquedaDestino').value.toLowerCase();
+
+    const filtrados = todosLosViajes.filter(v =>
+        v.origen.toLowerCase().includes(origen) &&
+        v.destino.toLowerCase().includes(destino)
+    );
+
+    mostrarViajes(filtrados);
+}
 cargarViajes();

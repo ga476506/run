@@ -15,7 +15,7 @@ function redirigirPerfil() {
 
 function cerrarSesion() {
     localStorage.removeItem('usuario');
-    window.location.reload();
+    window.location.href = '/'; 
 }
 
 document.addEventListener('DOMContentLoaded', () => {

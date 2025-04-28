@@ -165,6 +165,10 @@ app.post('/login', (req, res) => {
   });
 });
 
+app.get('/perfils', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'perfil.html'));
+});
+
 app.get('/verificar-conductor', async (req, res) => {
   const id_usuario = req.session.userId;
   console.log('ID de usuario recibido en el backend:', id_usuario); // Verifica el valor recibido
@@ -291,6 +295,115 @@ app.get('/viajes', async (req, res) => {
     res.status(500).send('Error al obtener los viajes');
   }
 });
+
+//Ver perfil
+app.get('/api/perfil', async (req, res) => {
+  const id_usuario = req.session.userId;
+  if (!id_usuario) return res.status(401).json({ mensaje: 'No autenticado' });
+
+  try {
+    const [usuarioRows] = await db.promise().query(`
+      SELECT id_usuario, nombre, apellido_paterno, apellido_materno, fecha_nacimiento,
+             programa_educativo, telefono, correo, genero, foto_perfil
+      FROM Usuario
+      WHERE id_usuario = ?
+    `, [id_usuario]);
+
+    if (usuarioRows.length === 0) return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+
+    const usuario = usuarioRows[0];
+
+    const [conductorRows] = await db.promise().query(`
+      SELECT c.id_automovil, c.foto_licencia, a.modelo, a.ano, a.color, a.numeroz_serie, a.placas
+      FROM Conductor_Info c
+      JOIN Automovil a ON c.id_automovil = a.id_automovil
+      WHERE c.id_usuario = ?
+    `, [id_usuario]);
+
+    if (conductorRows.length > 0) {
+      usuario.conductor = true;
+      usuario.automovil = conductorRows[0];
+    } else {
+      usuario.conductor = false;
+    }
+
+    res.json(usuario);
+  } catch (error) {
+    console.error('Error al obtener el perfil:', error);
+    res.status(500).json({ mensaje: 'Error interno del servidor' });
+  }
+});
+
+//Editar perfil
+app.post('/api/perfil', upload.single('foto_perfil'), async (req, res) => {
+  const id_usuario = req.session.userId;
+  if (!id_usuario) return res.status(401).json({ mensaje: 'No autenticado' });
+
+  const {
+    nombre,
+    apellido_paterno,
+    apellido_materno,
+    fecha_nacimiento,
+    programa_educativo,
+    telefono,
+    genero,
+    modelo,
+    ano,
+    color,
+    numeroz_serie,
+    placas
+  } = req.body;
+
+  const nuevaFoto = req.file ? req.file.filename : null;
+
+  try {
+    // Actualizar datos del usuario
+    let sql = `
+      UPDATE Usuario SET
+        nombre = ?, apellido_paterno = ?, apellido_materno = ?,
+        fecha_nacimiento = ?, programa_educativo = ?, telefono = ?, genero = ?
+    `;
+    const valores = [nombre, apellido_paterno, apellido_materno, fecha_nacimiento,
+                     programa_educativo, telefono, genero];
+
+    if (nuevaFoto) {
+      sql += `, foto_perfil = ?`;
+      valores.push(nuevaFoto);
+    }
+
+    sql += ` WHERE id_usuario = ?`;
+    valores.push(id_usuario);
+
+    await db.promise().query(sql, valores);
+
+    // Consultar si es conductor
+    const [conductorRows] = await db.promise().query(`
+      SELECT c.id_automovil
+      FROM Conductor_Info c
+      WHERE c.id_usuario = ?
+    `, [id_usuario]);
+
+    if (conductorRows.length > 0) {
+      const id_automovil = conductorRows[0].id_automovil;
+
+      // Asegurarse de que todos los campos del automóvil estén presentes
+      if (modelo && ano && color && numeroz_serie && placas) {
+        await db.promise().query(`
+          UPDATE Automovil SET
+            modelo = ?, ano = ?, color = ?, numeroz_serie = ?, placas = ?
+          WHERE id_automovil = ?
+        `, [modelo, ano, color, numeroz_serie, placas, id_automovil]);
+      }
+    }
+
+    res.json({ mensaje: 'Perfil actualizado correctamente', foto_perfil: nuevaFoto });
+  } catch (error) {
+    console.error('Error actualizando perfil:', error);
+    res.status(500).json({ mensaje: 'Error en el servidor' });
+  }
+});
+
+
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
