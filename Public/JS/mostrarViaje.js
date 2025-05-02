@@ -10,13 +10,12 @@ function mostrarViajes(viajes) {
     const contenedor = document.getElementById('viajesContainer');
     contenedor.innerHTML = '';
     viajes.forEach(v => {
-        // ① Partimos la cadena y nos quedamos con la fecha pura
         const soloFecha = v.fecha.split('T')[0];
 
         const div = document.createElement('div');
         div.className = 'viaje border border-gray-300 rounded p-4 m-2 shadow';
         div.innerHTML = `
-            <h3 class="text-lg font-bold">${v.origen} ➡️ ${v.destino}</h3>
+            <h3 class="text-lg font-bold"> ${v.origen} <span class="flecha"> > </span> ${v.destino}</h3>
             <p><strong>Conductor:</strong> ${v.nombre_usuario}</p>
             <p><strong>Auto:</strong> ${v.modelo_auto} (${v.color_auto})</p>
             <p><strong>Fecha:</strong> ${soloFecha} | <strong>Hora:</strong> ${v.hora}</p>
