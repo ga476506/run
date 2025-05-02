@@ -6,82 +6,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/CSS/header.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/CSS/perfil.css">
 </head>
 
 <body>
-    <header>
-        <div class="header-container">
-            <a href="/">
-                <img class="logo" src="/Images/pagina/garza.png" alt="Logo">
-            </a>
-            <button class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">☰</button>
-            <nav>
-                <ul class="nav-list" id="nav-list">
-                    <li><a href="log">Login</a></li>
-                    <li><a href="ingresar">Registrate</a></li>
-                    <li><a href="#" id="btnPublicarViaje">Publicar viaje</a></li>
-                    <li><a href="buscarViaje">Buscar Viaje</a></li>
-                </ul>
-            </nav>
-            <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
-            <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
-                <img id="foto-usuario" src="" alt="Foto de perfil">
-                <span id="nombre-usuario"></span>
-            </div>
-
-            <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
-            <div id="user-menu" style="display: none;">
-                <img id="foto-usuario-menu" src="" alt="Foto de perfil">
-                <span id="nombre-usuario-menu"></span>
-                <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
-                <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
-            </div>
+    <header class="custom-header">
+        <a href="/" class="custom-logo">
+          <img src="/Images/pagina/logo-final.png" alt="Logo">
+        </a>
+    
+        <i class='bx bx-menu' id="menu-icon" onclick="toggleMenu()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+        </i>
+    
+        <ul class="navbar" id="nav-list">
+          <li><a href="log">Iniciar sesión</a></li>
+          <li><a href="ingresar">Regístrate</a></li>
+          <li><a href="#" id="btnPublicarViaje">Publicar viaje</a></li>
+          <li><a href="solicitud">Solicitudes de viaje</a></li>
+          <li><a href="buscarViaje">Buscar viaje</a></li>
+        </ul>
+    
+        <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
+          <img id="foto-usuario" src="" alt="Foto de perfil">
+          <span id="nombre-usuario"></span>
         </div>
-    </header>
+    
+        <div id="user-menu" style="display: none;">
+          <img id="foto-usuario-menu" src="" alt="Foto de perfil">
+          <span id="nombre-usuario-menu"></span>
+          <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
+          <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
+        </div>
+      </header>
 
-    <h1>Perfil de Usuario</h1>
+
+    
+<div class="wrapper">
+    <h1 class="title">Perfil de usuario</h1>
     <form id="formPerfil" enctype="multipart/form-data" method="POST">
-        <div class="flex flex-col items-center gap-2 mb-4">
+
+        <div class="flex flex-col items-center gap-2 mb-4 file-photo">
             <img id="previewPerfil" src="/Images/avatares/default.webp" alt="Foto de perfil"
                 class="rounded-full w-36 h-36 object-cover border border-gray-300" />
-            <input type="file" id="foto_perfil" name="foto_perfil" accept="image/*" class="hidden">
-            <button type="button" onclick="document.getElementById('foto_perfil').click()"
-                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                Cambiar foto
-            </button>
+            <input type="file" id="foto_perfil" name="foto_perfil" accept="image/*" class="subir-foto">
+            <label for="foto_perfil" class="label-photo">Cambiar foto</label>
         </div>
 
-        <label>Nombre: <input type="text" name="nombre" id="nombre"></label><br>
-        <label>Apellido Paterno: <input type="text" name="apellido_paterno" id="apellido_paterno"></label><br>
-        <label>Apellido Materno: <input type="text" name="apellido_materno" id="apellido_materno"></label><br>
-        <label>Fecha de nacimiento: <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"></label><br>
-        <label>Programa educativo: <input type="text" name="programa_educativo" id="programa_educativo"></label><br>
-        <label>Teléfono: <input type="text" name="telefono" id="telefono"></label><br>
-        <label>Correo: <input type="email" name="correo" id="correo" readonly></label><br>
-        <label>Género:
-            <select id="genero" name="genero">
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
-                <option value="Otro">Otro</option>
-            </select>
-        </label><br>
-        <div id="infoConductor" style="display: none;">
-            <h3>Información del conductor</h3>
-            <label>Modelo del automóvil: <input type="text" id="modelo"></label><br>
-            <label>Año: <input type="number" id="ano"></label><br>
-            <label>Color: <input type="text" id="color"></label><br>
-            <label>Número de serie: <input type="text" id="numeroz_serie"></label><br>
-            <label>Placas: <input type="text" id="placas"></label><br>
+        <div class="readonly-field">
+            <label for="nombre">Nombre</label>
+            <div class="field"><input type="text" name="nombre" id="nombre" readonly></div>
+         </div>
+        <div class="readonly-field">
+            <label for="apellido_paterno">Apellido Paterno</label>
+            <div class="field"><input type="text" name="apellido_paterno" id="apellido_paterno" readonly></div>
         </div>
-        
-        <button type="submit">Guardar Cambios</button>
+        <div class="readonly-field">
+            <label for="apellido_materno">Apellido Materno</label>
+            <div class="field"> <input type="text" name="apellido_materno" id="apellido_materno" readonly></div>
+        </div>
+        <div class="readonly-field">
+            <label for="fecha_nacimiento">Fecha de nacimiento</label>
+            <div class="field"> <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" readonly></div>
+        </div>
+        <div class="readonly-field">
+            <label for="programa_educativo">Programa educativo</label>
+            <div class="field"><input type="text" name="programa_educativo" id="programa_educativo" readonly></div>
+        </div>
+        <div class="field">
+            <input type="text" name="telefono" id="telefono" required>
+            <label for="telefono">Teléfono</label>
+        </div>
+        <div class="readonly-field">
+            <label for="correo">Correo</label>
+            <div class="field"> <input type="email" name="correo" id="correo" readonly></div>
+        </div>
+        <div class="readonly-field">
+            <label for="genero">Género</label>
+            <div class="field"> <input type="text" name="genero" id="genero" readonly></div>
+
+        </div>
+
+        <div id="infoConductor" style="display: none;">
+            <h3 class="title" style="border-radius: 10px; font-size: 20px;">Información del automivil</h3>
+            <div class="field">
+                <input type="text" id="modelo" name="modelo">
+                <label for="modelo">Modelo del automóvil</label>
+            </div>
+            <div class="field">
+                <input type="number" id="ano" name="ano">
+                <label for="ano">Año</label>
+            </div>
+            <div class="field">
+                <input type="text" id="color" name="color">
+                <label for="color">Color</label>
+            </div>
+            <div class="field">
+                <input type="text" id="numeroz_serie" name="numeroz_serie">
+                <label for="numeroz_serie">Número de serie</label>
+            </div>
+            <div class="field">
+                <input type="text" id="placas" name="placas">
+                <label for="placas">Placas</label>
+            </div>
+        </div>
+
+        <button type="submit" class="boton-degradado">Guardar Cambios</button>
     </form>
+</div>
+
 
 
     <script src="/JS/login.js"></script>
     <script src="/JS/conductorVerificado.js"></script>
     <script src="/JS/perfil.js"></script>
+    <script src="/JS/header.js"></script>
 </body>
 
 </html>
