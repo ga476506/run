@@ -232,3 +232,18 @@ body {
     padding: 10px 20px 30px 20px;
   }
 }
+
+#lFotoIne{
+ margin-top: 50px;
+}
+#fotoIne{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#lFotoPerfil{
+  margin-top: 50px;
+ }
+ #fotoPerfil{
+  margin-top: 20px;
+  margin-bottom: 20px;
+ }
