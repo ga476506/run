@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+:root {
+  --main-color: #800101;
+  --second-color: #FFAC38;
+  --text-color: #444;
+  --bg-color: #EEEFF1;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100vh;
+  background: var(--bg-color);
+  font-family: 'Poppins', sans-serif;
+}
+
+.titulo-viajes {
+    text-align: center;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 2rem;
+}
+
+#solicitudesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.solicitud {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  width: 320px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+.solicitud:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.solicitud p {
+  margin: 10px 0;
+  color: var(--text-color);
+}
+
+.estado {
+  font-weight: 600;
+}
+
+.estado.pendiente {
+  color: #e67e22;
+}
+
+.estado.aceptado {
+  color: #27ae60;
+}
+
+.estado.rechazado {
+  color: #c0392b;
+}
+
+.botones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.boton-accion {
+  flex: 1;
+  padding: 10px 0;
+  margin: 0 5px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.boton-aceptar {
+  background: linear-gradient(135deg, #4CAF50, #2ECC71);
+  color: white;
+}
+
+.boton-aceptar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.6);
+}
+
+.boton-rechazar {
+  background: linear-gradient(135deg, #E74C3C, #C0392B);
+  color: white;
+}
+
+.boton-rechazar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.6);
+}

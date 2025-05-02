@@ -259,3 +259,10 @@ body {
     padding: 10px 20px 30px 20px;
   }
 }
+#previewPerfil {
+    width: 30%;
+    height: 30%;
+}
+.label-photo{
+    margin-left: 30px;
+}

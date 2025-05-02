@@ -15,31 +15,30 @@
     <a href="/" class="custom-logo">
       <img src="/Images/pagina/logo-final.png" alt="Logo">
     </a>
-  
+
     <i class='bx bx-menu' id="menu-icon" onclick="toggleMenu()">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </i>
-  
+
     <ul class="navbar" id="nav-list">
       <li><a href="log">Iniciar sesión</a></li>
       <li><a href="ingresar">Regístrate</a></li>
       <li><a href="#" id="btnPublicarViaje">Publicar viaje</a></li>
+      <li><a href="solicitud">Solicitudes de viaje</a></li>
       <li><a href="buscarViaje">Buscar viaje</a></li>
     </ul>
-  
-    <!-- Contenedor de usuario (invisible hasta que inicie sesión) -->
+
     <div id="usuario-info" style="display: none;" onclick="toggleUserMenu()">
       <img id="foto-usuario" src="" alt="Foto de perfil">
       <span id="nombre-usuario"></span>
-  </div>
+    </div>
 
-  <!-- Menú desplegable de usuario (invisible hasta que inicie sesión) -->
-  <div id="user-menu" style="display: none;">
+    <div id="user-menu" style="display: none;">
       <img id="foto-usuario-menu" src="" alt="Foto de perfil">
       <span id="nombre-usuario-menu"></span>
       <button onclick="redirigirPerfil()" id="editarPerfilBtn">Editar perfil</button>
       <button id="cerrar-sesion" onclick="cerrarSesion()">Cerrar sesión</button>
-  </div>
+    </div>
   </header>
   <section class="hero">
     <div class="hero-content">
