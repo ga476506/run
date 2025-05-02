@@ -54,5 +54,4 @@ async function responderSolicitud(id_solicitud, estado) {
   cargarSolicitudes();
 }
 
-
 cargarSolicitudes();

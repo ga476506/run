@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Viajes Publicados</title>
     <link rel="stylesheet" href="/CSS/header.css">
     <link rel="stylesheet" href="/CSS/viajePublicado.css">
 </head>
@@ -40,19 +40,14 @@
       </header>
 <br><br>
     
-    <h1>Viajes publicados</h1>
-    <div class="flex flex-col md:flex-row gap-4 justify-center my-4">
-        <input type="text" id="busquedaOrigen" placeholder="Buscar por origen"
-            class="border p-2 rounded w-full md:w-1/3">
-        <input type="text" id="busquedaDestino" placeholder="Buscar por destino"
-            class="border p-2 rounded w-full md:w-1/3">
-    </div>
+<h1 class="titulo-viajes">Viajes Publicados</h1>
 
-    <div id="viajesContainer" class="max-w-4xl mx-auto px-4"></div>
-    <p>
-        Estado: <span class="font-bold">${s.estado}</span> |
-        Asientos restantes: <span class="asientos-restantes">${s.numero_asientos}</span>
-    </p>
+<div class="busqueda-container">
+    <input type="text" id="busquedaOrigen" placeholder="Buscar por origen" class="campo-busqueda">
+    <input type="text" id="busquedaDestino" placeholder="Buscar por destino" class="campo-busqueda">
+</div>
+
+    <div id="viajesContainer" class="viajes-container"></div>
 
     <script src="/JS/login.js"></script>
     <script src="/JS/conductorVerificado.js"></script>
