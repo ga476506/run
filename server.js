@@ -74,6 +74,9 @@ app.get('/subelicencia', (req, res) => {
 app.get('/buscarViaje', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'viajePublicado.html'));
 });
+app.get('/solicitud', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'solicitudes.html'));
+});
 
 // Ruta POST para registro de usuario
 app.post('/registro', upload.fields([
@@ -171,7 +174,7 @@ app.get('/perfils', (req, res) => {
 
 app.get('/verificar-conductor', async (req, res) => {
   const id_usuario = req.session.userId;
-  console.log('ID de usuario recibido en el backend:', id_usuario); // Verifica el valor recibido
+  console.log('ID de usuario recibido en el backend:', id_usuario);
 
   try {
     const [result] = await db.promise().query(
@@ -224,7 +227,7 @@ app.post('/subir-licencia', upload.single('foto_licencia'), (req, res) => {
 });
 
 app.post('/publicar-viaje', async (req, res) => {
-  const id_usuario = req.session.userId; // 🔥 CAMBIA AQUÍ: usa sesión, no body
+  const id_usuario = req.session.userId;
 
   const {
     origen,
@@ -253,40 +256,43 @@ app.post('/publicar-viaje', async (req, res) => {
 
     const { id_usuario: id_usuario_conductor, id_automovil } = conductorAutoRows[0];
 
-    await db.promise().query(
+    const [result] = await db.promise().query(
       `INSERT INTO Viaje_Publicado (
         id_usuario, id_automovil, origen, destino, hora, fecha, ruta, numero_asientos, costo_asiento
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [id_usuario_conductor, id_automovil, origen, destino, hora, fecha, ruta, numero_asientos, costo_asiento]
     );
 
+    req.session.viajeId = result.insertId;
     res.status(200).json({ mensaje: 'Viaje publicado exitosamente' });
   } catch (error) {
     console.error('Error al publicar viaje:', error);
     res.status(500).json({ mensaje: 'Error al publicar viaje' });
   }
+
 });
 
 app.get('/viajes', async (req, res) => {
   try {
     const [rows] = await db.promise().query(`
-    SELECT 
-    u.nombre AS nombre_usuario,
-    a.modelo AS modelo_auto,
-    a.color AS color_auto,
-    vp.origen,
-    vp.destino,
-    vp.hora,
-    vp.fecha,
-    vp.ruta,
-    vp.numero_asientos,
-    vp.costo_asiento
-    FROM 
-    Viaje_Publicado vp
-    JOIN 
-    Usuario u ON vp.id_usuario = u.id_usuario
-    JOIN 
-    Automovil a ON vp.id_automovil = a.id_automovil;
+      SELECT 
+        vp.id_viaje_publicado, -- 👈 AÑADE ESTA LÍNEA
+        u.nombre AS nombre_usuario,
+        a.modelo AS modelo_auto,
+        a.color AS color_auto,
+        vp.origen,
+        vp.destino,
+        vp.hora,
+        vp.fecha,
+        vp.ruta,
+        vp.numero_asientos,
+        vp.costo_asiento
+      FROM 
+        Viaje_Publicado vp
+      JOIN 
+        Usuario u ON vp.id_usuario = u.id_usuario
+      JOIN 
+        Automovil a ON vp.id_automovil = a.id_automovil;
     `);
 
     res.json(rows);
@@ -364,7 +370,7 @@ app.post('/api/perfil', upload.single('foto_perfil'), async (req, res) => {
         fecha_nacimiento = ?, programa_educativo = ?, telefono = ?, genero = ?
     `;
     const valores = [nombre, apellido_paterno, apellido_materno, fecha_nacimiento,
-                     programa_educativo, telefono, genero];
+      programa_educativo, telefono, genero];
 
     if (nuevaFoto) {
       sql += `, foto_perfil = ?`;
@@ -403,6 +409,143 @@ app.post('/api/perfil', upload.single('foto_perfil'), async (req, res) => {
   }
 });
 
+
+app.post('/solicitar-viaje', async (req, res) => {
+  const id_usuario = req.session.userId;
+  const id_viaje = req.body.id_viaje;
+
+  if (!id_usuario || !id_viaje) {
+    return res.status(400).json({ mensaje: 'Datos faltantes o usuario no autenticado' });
+  }
+
+  try {
+    const [yaSolicitado] = await db
+      .promise()
+      .query(
+        `SELECT 1
+         FROM Viaje_Solicitado
+         WHERE id_usuario = ? AND id_viaje_publicado = ?`,
+        [id_usuario, id_viaje]
+      );
+
+    if (yaSolicitado.length) {
+      return res.status(409).json({ mensaje: 'Ya has solicitado este viaje' });
+    }
+
+    const [result] = await db
+      .promise()
+      .query(
+        `INSERT INTO Viaje_Solicitado
+         (id_usuario, id_viaje_publicado, estado)
+         VALUES (?, ?, 'pendiente')`,
+        [id_usuario, id_viaje]
+      );
+
+    req.session.solID = result.insertId;
+    res.status(200).json({ mensaje: 'Solicitud realizada con éxito' });
+  } catch (error) {
+    console.error('Error al solicitar viaje:', error);
+    res.status(500).json({ mensaje: 'Error en el servidor al solicitar viaje' });
+  }
+});
+
+app.get('/solicitudes-conductor', async (req, res) => {
+  const id_usuario = req.session.userId;
+
+  if (!id_usuario) {
+    return res.status(401).json({ mensaje: 'Usuario no autenticado' });
+  }
+
+  try {
+    const [solicitudes] = await db.promise().query(`
+      SELECT 
+        vs.id_viaje_solicitado AS id_solicitud,   -- [– antes: vs.id_solicitud,]
+        vs.estado,
+        u.nombre AS nombre_solicitante,
+        vp.origen,
+        vp.destino,
+        vp.fecha,
+        vp.hora,
+        vp.id_viaje_publicado
+      FROM 
+        Viaje_Solicitado vs
+      JOIN 
+        Usuario u ON vs.id_usuario = u.id_usuario
+      JOIN 
+        Viaje_Publicado vp ON vs.id_viaje_publicado = vp.id_viaje_publicado
+      WHERE 
+        vp.id_usuario = ?
+    `, [id_usuario]);
+
+    res.json(solicitudes);
+  } catch (error) {
+    console.error('Error al obtener solicitudes del conductor:', error);
+    res.status(500).json({ mensaje: 'Error al obtener solicitudes' });
+  }
+});
+
+app.post('/respuesta-solicitud', async (req, res) => {
+  const { id_solicitud, estado } = req.body;
+
+  if (!['aceptado', 'rechazado'].includes(estado)) {
+    return res.status(400).json({ mensaje: 'Estado inválido' });
+  }
+
+  try {
+    // 1) Actualizo el estado de la solicitud
+    await db
+      .promise()
+      .query(
+        `UPDATE Viaje_Solicitado
+           SET estado = ?
+         WHERE id_viaje_solicitado = ?`,
+        [estado, id_solicitud]
+      );
+
+    let nuevosAsientos = null;
+    if (estado === 'aceptado') {
+      // 2) Obtengo el id_viaje_publicado asociado
+      const [[{ id_viaje_publicado }]] = await db
+        .promise()
+        .query(
+          `SELECT id_viaje_publicado
+             FROM Viaje_Solicitado
+            WHERE id_viaje_solicitado = ?`,
+          [id_solicitud]
+        );
+
+      // 3) Decremento en la tabla Viaje_Publicado
+      const [updateResult] = await db
+        .promise()
+        .query(
+          `UPDATE Viaje_Publicado
+             SET numero_asientos = numero_asientos - 1
+           WHERE id_viaje_publicado = ?`,
+          [id_viaje_publicado]
+        );
+
+      // 4) Vuelvo a leer el nuevo número de asientos
+      const [[{ numero_asientos }]] = await db
+        .promise()
+        .query(
+          `SELECT numero_asientos
+             FROM Viaje_Publicado
+            WHERE id_viaje_publicado = ?`,
+          [id_viaje_publicado]
+        );
+      nuevosAsientos = numero_asientos;
+    }
+
+    // 5) Devuelvo mensaje y, si hubo decremento, el nuevo conteo
+    res.json({ 
+      mensaje: 'Estado actualizado con éxito',
+      nuevosAsientos // será null si rechazado, o número si aceptado
+    });
+  } catch (error) {
+    console.error('Error al actualizar estado:', error);
+    res.status(500).json({ mensaje: 'Error al actualizar solicitud' });
+  }
+});
 
 
 app.listen(port, () => {
